@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uyd.dao.SysInfoDao">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap type="uyd.entity.SysInfo" id="sysInfoResult">
+		<result column="sys_name" property="sysName"/>
+		<result column="sys_version_no" property="sysVersionNo"/>
+	</resultMap>
+	
+	<!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    	sys_name, sys_version_no
+    </sql>
+    
+    <!-- SQL Server数据库语句前缀          <include refid="SQL_Prefix"/>   -->
+    <sql id="SQL_Prefix">
+    	HJKZ_DB.dbo.
+    </sql>
+    
+	<!-- 获取系统信息 -->
+	<select id="getSysInfo" resultType="uyd.entity.SysInfo" resultMap="sysInfoResult">
+		select <include refid="Base_Column_List"></include> from <include refid="SQL_Prefix"/>sys_info
+	</select>
+  	
+<!--   	<select id="list" resultMap="userResult" parameterType="Map"> -->
+<!--   	    select * from t_user  -->
+<!--   	    <where> -->
+<!--   	        <if test="trueName!=null and trueName!='' "> -->
+<!--   	            trueName like '%${trueName}%' -->
+<!--   	        </if> -->
+<!--   	    </where> -->
+<!--   	    limit #{start},#{pageSize} -->
+<!--   	</select> -->
+  	
+</mapper> 

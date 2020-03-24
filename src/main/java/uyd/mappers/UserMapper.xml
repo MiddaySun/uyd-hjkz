@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uyd.dao.UserDao">
+	<!-- 通用查询映射结果 -->
+	<resultMap type="uyd.entity.User" id="userResult">
+		<id column="user_id" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="true_name" property="trueName"/>
+		<result column="gender" property="gender"/>
+		<result column="job_number" property="jobNumber"/>
+		<result column="department_id" property="departmentId"/>
+		<result column="department_name" property="departmentName"/>
+		<result column="post_id" property="postId"/>
+		<result column="post_name" property="postName"/>
+		<result column="id_card_no" property="idCardNo"/>
+		<result column="phone" property="phone"/>
+		<result column="unit_id" property="unitId"/>
+		<result column="address" property="address"/>
+<!-- 		<association property="identity" column="idenId" select="com.dao.IdentityDao.findById"></association> -->
+	</resultMap>
+	
+	<!-- 通用查询结果列          <include refid="Base_Column_List" />   -->
+    <sql id="Base_Column_List">
+    	user_id, username, password ,true_name, gender, job_number, department_id, department_name, post_id, post_name, id_card_no, phone, unit_id,address
+    </sql>
+    
+	<!-- SQL Server数据库语句前缀          <include refid="SQL_Prefix"/>   -->
+    <sql id="SQL_Prefix">
+    	HJKZ_DB.dbo.
+    </sql>
+	
+	<select id="login" resultType="uyd.entity.User" resultMap="userResult">
+		 select  <include refid="Base_Column_List" /> from <include refid="SQL_Prefix"/>user_info where username=#{username} and password=#{password}
+	</select>
+	
+	<select id="findById" resultType="uyd.entity.User" resultMap="userResult" parameterType="java.lang.String">
+		select  <include refid="Base_Column_List" /> from <include refid="SQL_Prefix"/>user_info where user_id=#{userId}
+	</select>
+	
+	<!-- 根据登录用户名查询是否用户名重复 -->
+	<select id="findByUsername" resultType="Integer"  parameterType="java.lang.String">
+		select  count(username) from <include refid="SQL_Prefix"/>user_info where username=#{username}
+	</select>
+	
+  	<update id="updatePwd" parameterType="uyd.entity.User" >
+		update <include refid="SQL_Prefix"/>user_info set password=#{password} where user_id=#{userId}   
+	</update>
+  	
+  	<delete id="delete" parameterType="java.lang.String">
+  	    delete from <include refid="SQL_Prefix"/>user_info where user_id=#{userId}
+  	</delete>
+  	
+  	<select id="list" resultMap="userResult" parameterType="java.util.Map">  	    
+  	    select top ${pageSize} <include refid="Base_Column_List" /> from (
+  	    	select row_number() over(order by user_id asc) as rownumber,<include refid="Base_Column_List" /> from <include refid="SQL_Prefix"/>user_info
+  	    		<if test="trueName!=null and trueName!='' ">
+    				<bind name="trueName" value="'%' + trueName + '%'" />
+    				where true_name like #{trueName}
+    			</if>
+    			) temp_row
+				where rownumber > ((#{page} - 1) * #{pageSize});
+  	</select>
+  	
+  	<insert id="save" parameterType="uyd.entity.User">
+  	    insert into <include refid="SQL_Prefix"/>user_info 
+  	    values(#{userId},#{username},#{trueName},#{password},#{gender},#{jobNumber},null,null,#{postId},#{postName},#{idCardNo},#{phone},#{unitId},#{address})
+  	</insert>
+  	
+  	<update id="update" parameterType="uyd.entity.User">
+  	    update <include refid="SQL_Prefix"/>user_info
+  	    <set>
+  	        <if test="username!=null and username!='' ">
+  	            username=#{username},
+  	        </if>
+  	        <if test="trueName!=null and trueName!='' ">
+  	            true_name=#{trueName},
+  	        </if>
+  	        <if test="password!=null and password!='' ">
+  	            password=#{password},
+  	        </if>
+  	        <if test="gender!=null and gender!='' ">
+  	            gender=#{gender},
+  	        </if>
+  	        <if test="jobNumber!=null and jobNumber!='' ">
+  	            job_number=#{jobNumber},
+  	        </if>
+  	        <if test="postId!=null and postId!='' ">
+  	            post_id=#{postId},
+  	        </if>
+  	        <if test="postName!=null and postName!='' ">
+  	            post_name=#{postName},
+  	        </if>
+  	        <if test="idCardNo!=null and idCardNo!='' ">
+  	            id_card_no=#{idCardNo},
+  	        </if>
+  	        <if test="address!=null and address!='' ">
+  	            address=#{address},
+  	        </if>
+  	        <if test="phone!=null and phone!='' ">
+  	            phone=#{phone},
+  	        </if>
+  	    </set>
+  	    where user_id=#{userId}
+  	</update>
+  	
+  	<select id="getCount" parameterType="Map" resultType="Integer">
+	    select count(*) from  <include refid="SQL_Prefix"/>user_info
+	    	<if test="trueName!=null and trueName!='' ">
+    			<bind name="trueName" value="'%' + trueName + '%'" />
+    			where true_name like #{trueName}
+    		</if>
+<!-- 			<if test="trueName!=null and trueName!='' "> -->
+<!-- 				where trueName like '%${trueName}%' -->
+<!-- 			</if> -->
+	</select>
+</mapper> 

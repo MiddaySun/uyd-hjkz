@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uyd.dao.WsdDataDao">
+	
+	<!-- 通用查询映射结果 -->
+	<resultMap type="uyd.entity.WsdData" id="wsdDataResult">
+		<id column="wsd_data_id" property="wsdDataId"/>
+		<result column="dev_id" property="devId"/>
+		<result column="dev_area" property="devArea"/>
+		<result column="wd_value" property="wdValue"/>
+		<result column="sd_value" property="sdValue"/>
+		<result column="save_date" property="saveDate"/>
+		<result column="save_time" property="saveTime"/>
+	</resultMap>
+	
+	<!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    	wsd_data_id, dev_id, dev_area, wd_value, sd_value, save_date, save_time
+    </sql>
+    <!-- SQL Server数据库语句前缀          <include refid="SQL_Prefix"/>   -->
+    <sql id="SQL_Prefix">
+    	HJKZ_DB.dbo.
+    </sql>
+    
+    <select id="createWsdLineCharts" resultMap="wsdDataResult">
+    	select <include refid="Base_Column_List"></include> from <include refid="SQL_Prefix"></include>wsd_data
+    		<if test="startDate != null and startDate != ''">
+    			where save_date <![CDATA[ >= ]]> #{startDate} and save_date <![CDATA[ <= ]]> #{endDate}
+    		</if>
+    		<if test="endDate != null and endDate != ''">
+    			and save_time <![CDATA[ >= ]]> #{startTime} and save_time <![CDATA[ >= ]]> #{endTime}
+    		</if>
+    </select>
+	
+	
+	
+</mapper>
