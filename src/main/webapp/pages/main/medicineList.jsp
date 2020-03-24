@@ -282,10 +282,10 @@
 	 		<table cellspacing="8px">
 	 			<tr>
 	 				<td>中文名称：</td>
-	 				<td><input type="text" id="cName" name="cName" class="easyui-validatebox" required="true"/></td>
+	 				<td><input type="text" id="devId" name="devId" class="easyui-validatebox" required="true"/></td>
 	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	 				<td>英文名称：</td>
-	 				<td><input type="text" id="eName" name="eName" class="easyui-validatebox" required="true"/></td>
+	 				<td><input type="text" id="devName" name="devName" class="easyui-validatebox" required="true"/></td>
 	 			</tr>
 	 			<tr>
 	 				<td>库存：</td>
