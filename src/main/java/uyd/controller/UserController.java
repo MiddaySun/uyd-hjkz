@@ -57,7 +57,7 @@ public class UserController {
 		if (currentUser == null) {
 			request.setAttribute("errorMsg", "用户名或密码错误");
 			request.setAttribute("user", user);
-			return "login/login";
+			return "pages/login/login";
 		} else {
 			session.setAttribute("currentUser", currentUser);
 

@@ -31,6 +31,32 @@ public class LineChartsServiceImp implements LineChartsService {
 	 * @description
 	 */
 	@Override
+	public List<WsdData> loadWsdData(Map<String, Object> map) {
+		return wsdDataDao.loadWsdData(map);
+	}
+
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月23日,下午3:47:06
+	 * @version 1.0
+	 * @param map
+	 * @return
+	 * @description
+	 */
+	@Override
+	public Integer getCount(Map<String, Object> map) {
+		return wsdDataDao.getCount(map);
+	}
+
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月23日,下午5:03:28
+	 * @version 1.0
+	 * @param map
+	 * @return
+	 * @description
+	 */
+	@Override
 	public List<WsdData> createWsdLineCharts(Map<String, Object> map) {
 		return wsdDataDao.createWsdLineCharts(map);
 	}

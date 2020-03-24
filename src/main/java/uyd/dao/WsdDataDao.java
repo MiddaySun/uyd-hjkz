@@ -23,6 +23,25 @@ public interface WsdDataDao {
 	 * @return
 	 * @description 查询温湿度折线图表数据
 	 */
-	public List<WsdData> createWsdLineCharts(Map<String, Object> map);
+	public List<WsdData> loadWsdData(Map<String, Object> map);
 
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月23日,下午3:48:27
+	 * @version 1.0
+	 * @param map
+	 * @return
+	 * @description 查询分页数据总数量
+	 */
+	Integer getCount(Map<String, Object> map);
+
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月23日,下午5:06:56
+	 * @version 1.0
+	 * @param map
+	 * @return
+	 * @description 查询创建折线图
+	 */
+	List<WsdData> createWsdLineCharts(Map<String, Object> map);
 }

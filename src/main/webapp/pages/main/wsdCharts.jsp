@@ -33,20 +33,19 @@
 			$.ajax({
 				type : "post",
 				async : true, 
-				url : "${pageContext.request.contextPath }/charts/lineCharts.html",
-				data : {startDatetime:$("#startDatetime").val(),endDatetime:$("#endDatetime").val()},
+				url : "${pageContext.request.contextPath }/charts/createLineCharts.html",
+				data : {startDatetime:$("#startDatetime").datetimebox('getValue'),endDatetime:$("#endDatetime").datetimebox('getValue')},
 				dataType : "json",
  		        success : function(result) {
 		            //请求成功时执行该函数内容，result即为服务器返回的json对象
 		            if (result) {
 		                for(var i=0;i<result.length;i++){
-		                	var date = new Date(parseInt(result[i].saveDate, 10));
+		                	var date = new Date(parseInt(result[i].saveDatetime, 10));
 							var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
 							var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-							var time = new Date(parseInt(result[i].saveTime, 10));
-							var hours = time.getHours() < 10 ? "0" + time.getHours() : time.getHours();
-							var minutes = time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();
-							var seconds = time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds();
+							var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+							var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+							var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 							var week = date.getDay();
 							//获取当前星期X(0-6,0代表星期天)
 							if(week == 0) week="星期日"
@@ -119,9 +118,15 @@
         }
                 
         function searchLineCharts(){
+        	var s = $("#startDatetime").datetimebox('getValue');
+        	var e = $("#endDatetime").datetimebox('getValue');
+        	if(s==null && e!=null){
+        		$.messager.alert("系统提示","<font size='3' color='green'>请选择查询起始时间！<font>");
+				return;
+        	}
         	$("#dg").datagrid('load',{
-        		"startDatetime":$("#startDatetime").val(),
-        		"endDatetime":$("#endDatetime").val()
+        		"startDatetime":s,
+        		"endDatetime":e
         	});
         }
         
@@ -155,10 +160,10 @@
 	<div id="tb" style="padding-bottom:5px; padding-top:5px; ">
 		<div>
 			<label>起始时间：</label>
-			<input type="text" class="easyui-datetimebox" value="" id="startDatetime">
+			<input type="text" class="easyui-datetimebox" value="" onkeydown="if(event.keyCode==13) searchLineCharts()" id="startDatetime">
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<label>截止时间：</label>
-			<input type="text" class="easyui-datetimebox" value="" id="endDatetime">
+			<input type="text" class="easyui-datetimebox" value="" onkeydown="if(event.keyCode==13) searchLineCharts()" id="endDatetime">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:searchLineCharts()" class="easyui-linkbutton" iconCls="icon-search" plain="true" style="outline: none">搜索</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -168,20 +173,19 @@
 	
 	<table id="dg" title="温湿度数据" class="easyui-datagrid"
 	 fitColumns="true" pagination="true" rownumbers="true" 
-	 url="${pageContext.request.contextPath }/charts/lineCharts.html" fit="true" toolbar="#tb" striped="true">
+	 url="${pageContext.request.contextPath }/charts/loadWsdData.html" fit="true" toolbar="#tb" striped="true">
 	 <thead>
 	 	<tr>
 	 		<th field="devId" width="50" align="center">设备编号</th>
 	 		<th field="devArea" width="50" align="center">设备区域</th>
 	 		<th field="wdValue" width="80" align="center">温度值/℃</th>
 	 		<th field="sdValue" width="50" align="center">湿度值/%</th>
-	 		<th field="saveDate" width="50" align="center">保存日期</th>
-	 		<th field="saveTime" width="80" align="center">保存时间</th>
+	 		<th field="saveDatetime" width="80" align="center">保存时间</th>
 	 	</tr>
 	 </thead>
 	</table>
 	
-	<div id="lineChartsDlg" class="easyui-dialog" style="width: 810px;height:500.58px;padding: 10px 20px;text-align:center;overflow-y: hidden;"
+	<div id="lineChartsDlg" class="easyui-dialog" onkeydown="if(event.keyCode==13) closelineChartsDlg()" style="width: 810px;height:500.58px;padding: 10px 20px;text-align:center;overflow-y: hidden;"
 	  closed="true" buttons="#dlg-buttons">
 	 	<div id="lineCharts" style="width: 700px;height:432px;margin-left:20px"></div>
 	</div>

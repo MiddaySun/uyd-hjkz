@@ -1,7 +1,6 @@
 package uyd.entity;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -19,7 +18,6 @@ public class WsdData {
 	private String devArea;
 	private String wdValue;
 	private String sdValue;
-	private Date saveDate;
-	private Time saveTime;
+	private Timestamp saveDatetime;
 
 }

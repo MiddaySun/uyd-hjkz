@@ -21,6 +21,6 @@ public class IndexController {
 	 */
 	@RequestMapping("/goLogin")
 	public String goLogin() {
-		return "login/login";
+		return "pages/login/login";
 	}
 }
