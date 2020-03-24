@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>药品信息列表</title>
+<title>设备信息列表</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/others/easyui/jquery-easyui-1.3.3/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/others/easyui/jquery-easyui-1.3.3/themes/icon.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/others/easyui/jquery-easyui-1.3.3/jquery.min.js"></script>
@@ -50,7 +50,7 @@
 						$("#dg").datagrid("reload");
 	 					$.messager.show({
 							title:'系统提示',
-							msg:"<font size='3' color='green'>该药品信息已删除成功！</font>",
+							msg:"<font size='3' color='green'>删除成功！</font>",
 							timeout:2000,
 							showType:'slide',
 							width:300,
@@ -65,7 +65,7 @@
 					}else{
 	 					$.messager.show({
 							title:'系统提示',
-							msg:"<font size='3' color='green'>删除该药品信息失败</font>",
+							msg:"<font size='3' color='green'>删除失败！</font>",
 							timeout:2000,
 							showType:'slide',
 							width:300,
@@ -86,7 +86,7 @@
 	
 	
 	function openMedicineAddDialog(){
-		$("#dlg").dialog("open").dialog("setTitle","添加药品信息");
+		$("#dlg").dialog("open").dialog("setTitle","添加设备信息");
 		url = "${pageContext.request.contextPath }/medicine/add.html";
 	}
 	
@@ -96,7 +96,7 @@
 			url:url,
 			onSubmit:function(){
 				if($("#typeId").combobox("getValue")==""){
-					$.messager.alert("系统提示","<font size='3' color='green'>请选择对应的药品类别!<font>");
+					$.messager.alert("系统提示","<font size='3' color='green'>请选择对应的设备类别!<font>");
 					return false;
 				}
 				if($("#productDate").datebox("getValue")==""){
@@ -113,7 +113,7 @@
 					$("#dg").datagrid("reload");
  					$.messager.show({
 						title:'系统提示',
-						msg:"<font size='3' color='green'>添加药品信息成功</font>",
+						msg:"<font size='3' color='green'>添加成功！</font>",
 						timeout:2000,
 						showType:'slide',
 						width:300,
@@ -128,7 +128,7 @@
 				}else{
  					$.messager.show({
 						title:'系统提示',
-						msg:"<font size='3' color='green'>添加药品信息失败</font>",
+						msg:"<font size='3' color='green'>添加失败！</font>",
 						timeout:2000,
 						showType:'slide',
 						width:300,
@@ -160,7 +160,7 @@
 					$("#dg").datagrid("reload");
  					$.messager.show({
 						title:'系统提示',
-						msg:"<font size='3' color='green'>修改药品信息成功</font>",
+						msg:"<font size='3' color='green'>修改成功！</font>",
 						timeout:2000,
 						showType:'slide',
 						width:300,
@@ -175,7 +175,7 @@
 				}else{
  					$.messager.show({
 						title:'系统提示',
-						msg:"<font size='3' color='green'>修改药品信息失败</font>",
+						msg:"<font size='3' color='green'>修改失败！</font>",
 						timeout:2000,
 						showType:'slide',
 						width:300,
@@ -200,7 +200,7 @@
 			return;
 		}
 		var row=selectedRows[0];
-		$("#dlg2").dialog("open").dialog("setTitle","编辑药品信息");
+		$("#dlg2").dialog("open").dialog("setTitle","编辑设备信息");
 		$("#cName2").val(row.cName);
 		$("#eName2").val(row.eName);
 		$("#price2").val(row.price);
@@ -238,25 +238,21 @@
 </script>
 </head>
 <body style="margin:1px;">
-	<table id="dg" title="用户列表" class="easyui-datagrid"
+	<table id="dg" title="设备列表" class="easyui-datagrid"
 	 fitColumns="true" pagination="true" rownumbers="true" 
 	 url="${pageContext.request.contextPath }/medicine/list.html" fit="true" toolbar="#tb">
 	 <thead>
 	 	<tr>
 	 		<th field="cb" checkbox="true" align="center"></th>
-	 		<th field="id" width="30" align="center">编号</th>
-	 		<th field="cName" width="120" align="center">中文名称</th>
-	 		<th field="eName" width="120" align="center">英文名称</th>
-	 		<th field="price" width="30" align="center">价格</th>
-	 	    
-	 		<th field="nums" width="30" align="center">库存</th>
-	 		<th field="manufacturer" width="100" align="center">生产商</th>
-	 		<th field="describle" width="140" align="center">作用</th>	 		
-	 		<th field="productDate" width="80" align="center">生产日期</th>
-	 		<th field="safeDate" width="50" align="center">保质期</th>
-	 		<th field="standard" width="150" align="center">规格</th>
-	 		<!-- 修改jquery.easyui.min.js的8670行的代码可以使field使用点连接取二级属性 -->
-	 		<th field="type.cTypeName" width="50" align="center">药品类别</th>
+	 		<th field="devId" width="30" align="center">编号</th>
+	 		<th field="devName" width="120" align="center">名称</th>
+	 		<th field="devManufacture" width="100" align="center">生产商</th>
+	 		<th field="devModelNumber" width="100" align="center">型号</th>
+	 		<th field="devCategory" width="70" align="center">类别</th>
+	 		<th field="devInterface" width="140" align="center">接口信息</th>
+	 		<th field="devState" width="50" align="center">状态</th>	 		
+	 		<th field="devLastStateTime" width="80" align="center">最后更新状态日期</th>
+<!-- 	 		<th field="unitId" width="50" align="center" >机构编码</th> -->
 	 	</tr>
 	 </thead>
 	</table>
@@ -268,15 +264,15 @@
 		</div>
 		<div style="padding-left:176px;margin-top:-25px;">
 			<a href="javascript:searchMedicine()" class="easyui-linkbutton" iconCls="icon-search" plain="true" style="outline: none">搜索</a>
-			<input type="text" id="s_trueName" style="width:220px;" size="20" onkeydown="if(event.keyCode==13) searchMedicine()" placeholder="请输入您要查找的中文药名"/>
+			<input type="text" id="s_trueName" style="width:220px;" size="20" onkeydown="if(event.keyCode==13) searchMedicine()" placeholder="请输入您要查找设备名称"/>
 		</div>
 		<div style="margin-left:476px;margin-top:-25px;">
-			<select class="easyui-combobox" id="s_typeId" name="typeId" style="width: 143px;" editable="false" panelHeight="auto">
-	 			<option value="">- - - - -全部- - - - -</option>
-	 			<c:forEach var="type" items="${typeList }">
-	 				<option value="${type.id }">${type.cTypeName }</option>
-	 			</c:forEach>
-	 		</select>
+<!-- 			<select class="easyui-combobox" id="s_typeId" name="typeId" style="width: 143px;" editable="false" panelHeight="auto"> -->
+<!-- 	 			<option value="">- - - - -全部- - - - -</option> -->
+<%-- 	 			<c:forEach var="type" items="${typeList }"> --%>
+<%-- 	 				<option value="${type.id }">${type.cTypeName }</option> --%>
+<%-- 	 			</c:forEach> --%>
+<!-- 	 		</select> -->
 		</div>
 	</div>
 	
