@@ -16,7 +16,7 @@
 	
 	var url;
 	
-	function searchMedicine(){
+	function searchData(){
 		$("#dg").datagrid('load',{
 			"cName":$("#s_trueName").val()
 		});
@@ -32,7 +32,7 @@
 	    })   
 	});
 	
-	function deleteMedicine(){
+	function deleteData(){
 		var selectedRows=$("#dg").datagrid('getSelections');
 		if(selectedRows.length==0){
 			$.messager.alert("系统提示","<font size='3' color='green'>请选择要删除的数据！<font>");
@@ -45,7 +45,7 @@
 		var ids=strIds.join(",");
 		$.messager.confirm("系统提示","您确认要删除这<font color=red>"+selectedRows.length+"</font>条数据吗？",function(r){
 			if(r){
-				$.post("${pageContext.request.contextPath }/medicine/delete.html",{ids:ids},function(result){
+				$.post("${pageContext.request.contextPath }/device/delete.html",{ids:ids},function(result){
 					if(result.success){
 						$("#dg").datagrid("reload");
 	 					$.messager.show({
@@ -85,9 +85,9 @@
 	}
 	
 	
-	function openMedicineAddDialog(){
+	function openAddDialog(){
 		$("#dlg").dialog("open").dialog("setTitle","添加设备信息");
-		url = "${pageContext.request.contextPath }/medicine/add.html";
+		url = "${pageContext.request.contextPath }/device/add.html";
 	}
 	
 	
@@ -193,7 +193,7 @@
 		});
 	}
 	
-	function openMedicineModifyDialog(){
+	function openModifyDialog(){
 		var selectedRows=$("#dg").datagrid('getSelections');
 		if(selectedRows.length!=1){
 			$.messager.alert("系统提示","<font size='3' color='green'>请选择一条要编辑的数据！<font>");
@@ -211,7 +211,7 @@
 		$("#standard2").val(row.standard);
 		$("#nums2").val(row.nums);
 		$("#productDate2").datebox("setValue", row.productDate);
-		url="${pageContext.request.contextPath }/medicine/update.html?id="+row.id;
+		url="${pageContext.request.contextPath }/device/update.html?id="+row.id;
 	}
 	
 	function resetValue(){
@@ -227,12 +227,12 @@
 		$("#productDate").datebox("setValue", "");
 	}
 	
-	function closeMedicineDialog(){
+	function closeDeviceDialog(){
 		$("#dlg").dialog("close");
 		resetValue();
 	}
 	
-	function closeUpdateMedicineDialog(){
+	function closeUpdateDeviceDialog(){
 		$("#dlg2").dialog("close");
 	}
 </script>
@@ -240,7 +240,7 @@
 <body style="margin:1px;">
 	<table id="dg" title="设备列表" class="easyui-datagrid"
 	 fitColumns="true" pagination="true" rownumbers="true" 
-	 url="${pageContext.request.contextPath }/medicine/list.html" fit="true" toolbar="#tb">
+	 url="${pageContext.request.contextPath }/deviceInfo/findList.html" fit="true" toolbar="#tb">
 	 <thead>
 	 	<tr>
 	 		<th field="cb" checkbox="true" align="center"></th>
@@ -257,23 +257,21 @@
 	 </thead>
 	</table>
 	<div id="tb" style="padding-bottom:5px; padding-top:5px; ">
-		<div style="width: 200px;">
-			<a href="javascript:openMedicineAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
-			<a href="javascript:openMedicineModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
-			<a href="javascript:deleteMedicine()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+		<div>
+			<a href="javascript:openAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>&nbsp;&nbsp;
+			<a href="javascript:openModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>&nbsp;&nbsp;
+			<a href="javascript:deleteData()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>&nbsp;&nbsp;
+			<a href="javascript:searchData()" class="easyui-linkbutton" iconCls="icon-search" plain="true" style="outline: none">搜索</a>
+			<input type="text" id="s_trueName" style="width:200px;" size="20" onkeydown="if(event.keyCode==13) searchData()" placeholder="请输入您要查找设备名称"/>
 		</div>
-		<div style="padding-left:176px;margin-top:-25px;">
-			<a href="javascript:searchMedicine()" class="easyui-linkbutton" iconCls="icon-search" plain="true" style="outline: none">搜索</a>
-			<input type="text" id="s_trueName" style="width:220px;" size="20" onkeydown="if(event.keyCode==13) searchMedicine()" placeholder="请输入您要查找设备名称"/>
-		</div>
-		<div style="margin-left:476px;margin-top:-25px;">
+<!-- 		<div style="margin-left:476px;margin-top:-25px;"> -->
 <!-- 			<select class="easyui-combobox" id="s_typeId" name="typeId" style="width: 143px;" editable="false" panelHeight="auto"> -->
 <!-- 	 			<option value="">- - - - -全部- - - - -</option> -->
 <%-- 	 			<c:forEach var="type" items="${typeList }"> --%>
 <%-- 	 				<option value="${type.id }">${type.cTypeName }</option> --%>
 <%-- 	 			</c:forEach> --%>
 <!-- 	 		</select> -->
-		</div>
+<!-- 		</div> -->
 	</div>
 	
 	<div id="dlg" class="easyui-dialog" style="width: 570px;height:300px;padding:10px 20px"
@@ -281,51 +279,40 @@
 	 	<form id="fm" method="post">
 	 		<table cellspacing="8px">
 	 			<tr>
-	 				<td>中文名称：</td>
-	 				<td><input type="text" id="devId" name="devId" class="easyui-validatebox" required="true"/></td>
+	 				<td>设备编号：</td>
+	 				<td><input type="text" id="devId" name="devId" class="easyui-validatebox" required="false"/></td>
 	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>英文名称：</td>
+	 				<td>设备名称：</td>
 	 				<td><input type="text" id="devName" name="devName" class="easyui-validatebox" required="true"/></td>
 	 			</tr>
 	 			<tr>
-	 				<td>库存：</td>
-	 				<td><input type="text" id="nums" name="nums" class="easyui-validatebox" required="true"/></td>
-	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>价格：</td>
-	 				<td><input type="text" id="price" name="price" class="easyui-validatebox" required="true"/></td>
-	 			</tr>
-	 			<tr>
-	 				<td>保质期：</td>
-	 				<td><input type="text" id="safeDate" name="safeDate" class="easyui-validatebox" required="true"/></td>
-	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>类别：</td>
-	 				<td>
-	 					<select class="easyui-combobox" id="typeId" name="typeId" style="width: 143px;" editable="false" panelHeight="auto">
-	 						<option value="">---请选择药品类别---</option>
-				 			<c:forEach var="type" items="${typeList }">
-				 				<option value="${type.id }">${type.cTypeName }</option>
-				 			</c:forEach>
-	 					</select>
-	 				</td>
-	 			</tr>
-	 			<tr>
 	 				<td>生产商：</td>
-	 				<td><input type="text" id="manufacturer" name="manufacturer" class="easyui-validatebox" required="true"/></td>
+	 				<td><input type="text" id="devManufacture" name="devManufacture" class="easyui-validatebox" required="true"/></td>
 	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>生产日期：</td>
-	 				<td><input type="text" id="productDate" name="productDate" class="easyui-datebox"  required="true"/></td>
+	 				<td>型号：</td>
+	 				<td><input type="text" id="devModelNumber" name="devModelNumber" class="easyui-validatebox" required="true"/></td>
 	 			</tr>
 	 			<tr>
-	 				<td>药品疗效：</td>
-	 				<td colspan="4">
-	 					<input type="text" id="describle" name="describle" class="easyui-validatebox" required="true" style="width: 385px;"/>
+	 				<td>类别：</td>
+	 				<td><input type="text" id="devCategory" name="devCategory" class="easyui-validatebox" required="false"/></td>
+	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	 				<td>接口信息：</td>
+	 				<td>
+	 				<input type="text" id="devInterface" name="devInterface" class="easyui-validatebox" required="false"/>
+<!-- 	 					<select class="easyui-combobox" id="devInterface" name="devInterface" style="width: 143px;" editable="false" panelHeight="auto"> -->
+<!-- 	 						<option value="">---请选择药品类别---</option> -->
+<%-- 				 			<c:forEach var="type" items="${typeList }"> --%>
+<%-- 				 				<option value="${type.id }">${type.cTypeName }</option> --%>
+<%-- 				 			</c:forEach> --%>
+<!-- 	 					</select> -->
 	 				</td>
 	 			</tr>
 	 			<tr>
-	 				<td>药品规格：</td>
-	 				<td colspan="4">
-	 					<input type="text" id="standard" name="standard" class="easyui-validatebox" required="true" style="width: 385px;"/>
-	 				</td>
+	 				<td>状态：</td>
+	 				<td><input type="text" id="devState" name="devState" class="easyui-validatebox" required="false"/></td>
+	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	 				<td>更新日期：</td>
+	 				<td><input type="text" id="devLastStateTime" name="devLastStateTime" class="easyui-validatebox"  required="false"/></td>
 	 			</tr>
 	 		</table>
 	 	</form>
@@ -336,64 +323,54 @@
 	 	<form id="fm2" method="post">
 	 		<table cellspacing="8px">
 		 		<tr>
-	 				<td>中文名称：</td>
-	 				<td><input type="text" id="cName2" name="cName" class="easyui-validatebox" required="true"/></td>
+	 				<td>设备编号：</td>
+	 				<td><input type="text" id="devId2" name="devId" class="easyui-validatebox" required="false"/></td>
 	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>英文名称：</td>
-	 				<td><input type="text" id="eName2" name="eName" class="easyui-validatebox" required="true"/></td>
-	 			</tr>
-	 			<tr>
-	 				<td>库存：</td>
-	 				<td><input type="text" id="nums2" name="nums" class="easyui-validatebox" required="true"/></td>
-	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>价格：</td>
-	 				<td><input type="text" id="price2" name="price" class="easyui-validatebox" required="true"/></td>
-	 			</tr>
-	 			<tr>
-	 				<td>保质期：</td>
-	 				<td><input type="text" id="safeDate2" name="safeDate" class="easyui-validatebox" required="true"/></td>
-	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>类别：</td>
-	 				<td>
-	 					<select class="easyui-combobox" id="typeId2" name="typeId" style="width: 143px;" editable="false" panelHeight="auto">
-	 						<option value="">---请选择药品类别---</option>
-				 			<c:forEach var="type" items="${typeList }">
-				 				<option value="${type.id }">${type.cTypeName }</option>
-				 			</c:forEach>
-	 					</select>
-	 				</td>
+	 				<td>设备名称：</td>
+	 				<td><input type="text" id="devName2" name="devName" class="easyui-validatebox" required="true"/></td>
 	 			</tr>
 	 			<tr>
 	 				<td>生产商：</td>
-	 				<td><input type="text" id="manufacturer2" name="manufacturer" class="easyui-validatebox"  required="true"/></td>
+	 				<td><input type="text" id="devManufacture2" name="devManufacture" class="easyui-validatebox" required="true"/></td>
 	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	 				<td>生产日期：</td>
-	 				<td><input type="text" id="productDate2" name="productDate" class="easyui-datebox"  required="true"/></td>
+	 				<td>型号：</td>
+	 				<td><input type="text" id="devModelNumber2" name="devModelNumber" class="easyui-validatebox" required="true"/></td>
 	 			</tr>
 	 			<tr>
-	 				<td>药品疗效：</td>
-	 				<td colspan="4">
-	 					<input type="text" id="describle2" name="describle" class="easyui-validatebox" required="true" style="width: 385px;"/>
+	 				<td>类别：</td>
+	 				<td><input type="text" id="devCategory2" name="devCategory" class="easyui-validatebox" required="false"/></td>
+	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	 				<td>接口信息：</td>
+	 				<td>
+	 					<input type="text" id="devInterface2" name="devInterface" class="easyui-validatebox" required="false"/>
+<!-- 	 					<select class="easyui-combobox" id="typeId2" name="typeId" style="width: 143px;" editable="false" panelHeight="auto"> -->
+<!-- 	 						<option value="">---请选择药品类别---</option> -->
+<%-- 				 			<c:forEach var="type" items="${typeList }"> --%>
+<%-- 				 				<option value="${type.id }">${type.cTypeName }</option> --%>
+<%-- 				 			</c:forEach> --%>
+<!-- 	 					</select> -->
 	 				</td>
 	 			</tr>
 	 			<tr>
-	 				<td>药品规格：</td>
-	 				<td colspan="4">
-	 					<input type="text" id="standard2" name="standard" class="easyui-validatebox" required="true" style="width: 385px;"/>
-	 				</td>
+	 				<td>状态：</td>
+	 				<td><input type="text" id="devState2" name="devState" class="easyui-validatebox"  required="false"/></td>
+	 				<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	 				<td>更新日期：</td>
+	 				<td><input type="text" id="devLastStateTime2" name="devLastStateTime" class="easyui-validatebox"  required="false"/></td>
 	 			</tr>
+	 			
 	 		</table>
 	 	</form>
 	</div>
 	
 	<div id="dlg-buttons">
-		<a href="javascript:addMedicine()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-		<a href="javascript:closeMedicineDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+		<a href="javascript:addDevice()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+		<a href="javascript:closeDeviceDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 	</div>
 	
 	<div id="dlg-buttons2">
-		<a href="javascript:updateMedicine()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-		<a href="javascript:closeUpdateMedicineDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+		<a href="javascript:updateDevice()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+		<a href="javascript:closeUpdateDeviceDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 	</div>
 </body>
 </html>

@@ -52,6 +52,21 @@
     			and dev_model_number like #{devModelNumber}
     		</if>
     </select>
+    
+    <insert id="addDeviceInfo" resultType="java.lang.Integer">
+    
+    </insert>
+    
+    <delete id="delteDeviceInfo" resultType="java.lang.Integer">
+    
+    </delete>
 	
+	<update id="updateDeviceInfo" resultType="java.lang.Integer">
+	
+	</update>
+	
+	<select id="findByDeviceInfo" resultType="java.lang.Integer">
+	
+	</select>
 	
 </mapper>

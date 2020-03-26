@@ -194,7 +194,7 @@
 		<div style="width:100%;height:115px;text-align:right;position:relative;position:absolute;">
 			<div style="width:300;height:115px;display: inline-block;text-align:center;">
 				<div style="width:100%;height:60px;margin-top:50px;">
-					<h2><label>当前用户：${currentUser.username}&nbsp;&nbsp;&nbsp;&nbsp;</label><label id="time" style="">------------</label></h2>
+					<h3 style="color:#FFFFFF;font-weight:normal"><label>当前用户：${currentUser.username}&nbsp;&nbsp;&nbsp;&nbsp;</label><label id="time" style="">------------</label></h3>
 				</div>
 			</div>
 			<div s style="width:150;height:115px;text-align:right;display: inline-block;">
@@ -228,6 +228,7 @@
 			</div>
 			<div title="设备信息" data-options="iconCls:'icon-item'" style="padding: 10px;background:#4BA4D0;">
 				<a href="javascript:openTab('温湿度曲线','wsdCharts.jsp','icon-item')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-item'" style="width: 150px;">温湿度曲线</a>
+				<a href="javascript:openTab('设备列表','deviceList.jsp','icon-item')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-item'" style="width: 150px;">设备列表</a>
 			</div>
 <!-- 			<div title="类别管理" data-options="iconCls:'icon-tag'" style="padding: 10px"> -->
 <!-- 				<a href="javascript:openTab('类别列表','typeList.jsp','icon-tag-edit')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-tag-edit'" style="width: 150px;">类别列表</a>  -->

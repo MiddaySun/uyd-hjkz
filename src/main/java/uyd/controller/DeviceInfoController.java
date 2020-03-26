@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,7 +39,14 @@ public class DeviceInfoController {
 	 * @author CC , Asa4CC@126.com
 	 * @time 2020年3月24日,下午5:37:55
 	 * @version 1.0
-	 * @description
+	 * @param request
+	 * @param response
+	 * @param devName
+	 * @param page
+	 * @param rows
+	 * @param devModelNumber
+	 * @throws Exception
+	 * @description 分页查询设备信息列表
 	 */
 	@RequestMapping("/findList")
 	public void findList(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "devName", required = false) String devName,
@@ -66,6 +74,54 @@ public class DeviceInfoController {
 		result.put("total", total);
 		result.put("rows", rows1);
 		ResponseUtil.write(response, result);
+	}
+
+	/**
+	 * 
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月26日,上午10:41:16
+	 * @version 1.0
+	 * @param request
+	 * @param response
+	 * @param username
+	 * @param password
+	 * @param gender
+	 * @param idCardNo
+	 * @param phone
+	 * @param trueName
+	 * @param address
+	 * @param postId
+	 * @param jobNumber
+	 * @return
+	 * @throws Exception
+	 * @description 修改设备信息
+	 */
+	@RequestMapping("/addDeviceInfo")
+	@Transactional(rollbackFor = { Exception.class })
+	public String saveUser(HttpServletRequest request, HttpServletResponse response, DeviceInfo paramDev) throws Exception {
+		int resultNum = 0;
+
+		int flag = deviceInfoService.findByDeviceInfo(paramDev);
+		// if (flag <= 0) {
+		// paramDev.setUserId(CodeGenerator.generateCode("U"));
+		// if (postId.equals("admin")) {
+		// user.setPostName("管理员");
+		// } else {
+		// user.setPostName("常规用户");
+		// }
+		//
+		// resultNum = userService.save(user);
+		// }
+
+		JSONObject result = new JSONObject();
+		if (resultNum > 0) {
+			result.put("success", true);
+			ResponseUtil.write(response, result);
+		} else {
+			result.put("success", false);
+			ResponseUtil.write(response, result);
+		}
+		return null;
 	}
 
 }

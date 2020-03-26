@@ -49,4 +49,56 @@ public class DeviceInfoServiceImp implements DeviceInfoService {
 		return deviceInfodao.getCount(map);
 	}
 
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月26日,上午10:55:55
+	 * @version 1.0
+	 * @param deviceInfo
+	 * @return
+	 * @description
+	 */
+	@Override
+	public Integer findByDeviceInfo(DeviceInfo deviceInfo) {
+		return null;
+	}
+
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月26日,上午10:55:55
+	 * @version 1.0
+	 * @param deviceInfo
+	 * @return
+	 * @description
+	 */
+	@Override
+	public Integer addDeviceInfo(DeviceInfo deviceInfo) {
+		return null;
+	}
+
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月26日,上午10:55:55
+	 * @version 1.0
+	 * @param deviceInfo
+	 * @return
+	 * @description
+	 */
+	@Override
+	public Integer delteDeviceInfo(DeviceInfo deviceInfo) {
+		return null;
+	}
+
+	/**
+	 * @author CC , Asa4CC@126.com
+	 * @time 2020年3月26日,上午10:55:55
+	 * @version 1.0
+	 * @param deviceInfo
+	 * @return
+	 * @description
+	 */
+	@Override
+	public Integer updateDeviceInfo(DeviceInfo deviceInfo) {
+		return null;
+	}
+
 }
